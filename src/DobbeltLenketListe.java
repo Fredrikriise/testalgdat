@@ -90,8 +90,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     // subliste
     public Liste<T> subliste(int fra, int til)
     {
-        throw new UnsupportedOperationException("Ikke laget ennå!");
+        if (fra < 0)                                  // fra er negativ
+            throw new IndexOutOfBoundsException
+                    ("fra(" + fra + ") er negativ!");
+
+        if (til > antall)                          // til er utenfor tabellen
+            throw new IndexOutOfBoundsException
+                    ("til(" + til + ") > tablengde(" + antall + ")");
+
+        if (fra > til)                                // fra er større enn til
+            throw new IllegalArgumentException
+                    ("fra(" + fra + ") > til(" + til + ") - illegalt intervall!");
+        return subliste(fra, til);
     }
+
 
 
 
@@ -294,12 +306,25 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 /** //////////////////////////////////////////////////////////////////////////// **/
     public static void main(String[] args) {
 
+        // Oppgave 1
         String[] s1 = {}, s2 = {"A"}, s3 = {null,"A",null,"B",null};
         DobbeltLenketListe<String> l1 = new DobbeltLenketListe<>(s1);
         DobbeltLenketListe<String> l2 = new DobbeltLenketListe<>(s2);
         DobbeltLenketListe<String> l3 = new DobbeltLenketListe<>(s3);
 
         System.out.println(l1.toString() + ""+ l2.toString()+ ""+ l3.toString() + ""+ l1.omvendtString() + ""+ l2.omvendtString() + ""+ l3.omvendtString());
+
+        //Oppgave 3b)
+        /*
+        Character[] c = {'A','B','C','D','E','F','G','H','I','J',};
+        DobbeltLenketListe<Character> liste = newDobbeltLenketListe<>(c);
+        System.out.println(liste.subliste(3,8));  // [D, E, F, G, H]
+        System.out.println(liste.subliste(5,5));  // []
+        System.out.println(liste.subliste(8,liste.antall()));  // [I, J]
+        // System.out.println(liste.subliste(0,11));  // skal kaste unntak
+        */
+
+
 
     }
 } // DobbeltLenketListe

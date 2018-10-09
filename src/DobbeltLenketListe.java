@@ -113,6 +113,7 @@ public class DobbeltLenketListe<T> implements Liste<T>
         }
 
         hale = nyNode;
+        return true;
     }
 
     @Override

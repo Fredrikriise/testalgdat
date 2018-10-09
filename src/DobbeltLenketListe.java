@@ -1,14 +1,12 @@
 
-        import java.util.Comparator;
-        import java.util.ConcurrentModificationException;
-        import java.util.Iterator;
-        import java.util.NoSuchElementException;
-        import java.util.Objects;
+import java.util.Comparator;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
-public class DobbeltLenketListe<T> implements Liste<T>
-{
-    private static final class Node<T>   // en indre nodeklasse
-    {
+public class DobbeltLenketListe<T> implements Liste<T> {
+    private static final class Node<T> {  // en indre nodeklasse
         // instansvariabler
         private T verdi;
         private Node<T> forrige, neste;
@@ -24,7 +22,6 @@ public class DobbeltLenketListe<T> implements Liste<T>
         {
             this(verdi, null, null);
         }
-
     } // Node
 
     // instansvariabler
@@ -53,10 +50,6 @@ public class DobbeltLenketListe<T> implements Liste<T>
         {
             this();
 
-            if (tom()) {
-                return;
-            }
-
             if ( a == null) {
                 throw new NullPointerException("Tabellen a er null");
             }
@@ -81,7 +74,6 @@ public class DobbeltLenketListe<T> implements Liste<T>
 
         }
 
-
     // subliste
     public Liste<T> subliste(int fra, int til)
     {
@@ -104,6 +96,9 @@ public class DobbeltLenketListe<T> implements Liste<T>
     public boolean leggInn(T verdi)
     {
         Node nyNode = new Node<>(verdi, hale);
+        antall++;
+
+        Objects.requireNonNull(verdi, "Ikke tillat med null-verdier!");
 
         if(tom()) {
             hode = nyNode;
@@ -111,7 +106,6 @@ public class DobbeltLenketListe<T> implements Liste<T>
             hale.neste = nyNode;
             nyNode.forrige = hale;
         }
-
         hale = nyNode;
         return true;
     }
@@ -167,6 +161,7 @@ public class DobbeltLenketListe<T> implements Liste<T>
     @Override
     public String toString()
     {
+        System.out.println("jeg er her");
         StringBuilder s = new StringBuilder();
 
         s.append('[');
@@ -180,6 +175,7 @@ public class DobbeltLenketListe<T> implements Liste<T>
             while (a != null) {
                 s.append(',').append(' ').append(a.verdi);
                 a = a.neste;
+                System.out.println("verdien er " + a.verdi);
             }
         }
 
@@ -265,13 +261,8 @@ public class DobbeltLenketListe<T> implements Liste<T>
 
     } // DobbeltLenketListeIterator
 
-
-
-
-
 /** //////////////////////////////////////////////////////////////////////////// **/
     public static void main(String[] args) {
-
 
         String[] s1 = {}, s2 = {"A"}, s3 = {null,"A",null,"B",null};
         DobbeltLenketListe<String> l1 = new DobbeltLenketListe<>(s1);
@@ -281,8 +272,4 @@ public class DobbeltLenketListe<T> implements Liste<T>
         System.out.println(l1.toString() + ""+ l2.toString()+ ""+ l3.toString() + ""+ l1.omvendtString() + ""+ l2.omvendtString() + ""+ l3.omvendtString());
 
     }
-
-
-
-
 } // DobbeltLenketListe

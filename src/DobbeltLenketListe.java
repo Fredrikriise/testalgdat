@@ -30,10 +30,23 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int antall;            // antall noder i listen
     private int endringer;   // antall endringer i listen
 
-    // hjelpemetode
+    // hjelpemetode IKKE FERDIG
     private Node<T> finnNode(int indeks)
     {
-        throw new UnsupportedOperationException("Ikke laget ennå!");
+         if(indeks < (antall/2)) {
+             Node<T> p = hode;
+             for(int i = 0; i < indeks; i++) {
+                 p = p.neste;
+                 return p;
+             }
+         } else {
+             Node<T> p = hale;
+             for(int i = indeks; i>0; i--)  {
+                 p = p.forrige;
+                 return p;
+             }
+        }
+        return null;
     }
 
     // konstruktør
@@ -80,6 +93,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException("Ikke laget ennå!");
     }
 
+
+
     @Override
     public int antall()
     {
@@ -125,7 +140,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public T hent(int indeks)
     {
-        throw new UnsupportedOperationException("Ikke laget ennå!");
+        indeksKontroll(indeks, false);
+        return finnNode(indeks).verdi;
     }
 
     @Override
@@ -137,7 +153,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public T oppdater(int indeks, T nyverdi)
     {
-        throw new UnsupportedOperationException("Ikke laget ennå!");
+        Objects.requireNonNull(nyverdi, "Ikke tillatt med null-verdier!");
+        indeksKontroll(indeks, false);
+        Node<T> p = finnNode(indeks);
+        T gammelVerdi = p.verdi;
+        p.verdi = nyverdi;
+        return gammelVerdi;
     }
 
     @Override
@@ -161,6 +182,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public String toString()
     {
+        /*
         System.out.println("jeg er her");
         StringBuilder s = new StringBuilder();
 
@@ -181,7 +203,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         s.append(']');
 
-        return s.toString();
+        return s.toString(); */
+        StringBuilder sb = new StringBuilder("[");
+        Node<T> node = hode;
+        while(node != null){
+            if(node != hode) sb.append(", ");
+            sb.append(node.verdi);
+            node = node.neste;
+        }
+        return sb.toString();
     }
 
     public String omvendtString()

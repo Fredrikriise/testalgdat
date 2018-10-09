@@ -21,8 +21,8 @@ public class Oblig2Test {
         int antallFeil = 0;
 
         antallFeil += oppgave1();
-        antallFeil += oppgave2();
-        //antallFeil += oppgave3();
+        //antallFeil += oppgave2();
+        antallFeil += oppgave3();
         //antallFeil += oppgave4();
         //antallFeil += oppgave5();
         //antallFeil += oppgave6();
@@ -173,7 +173,7 @@ public class Oblig2Test {
         return antallFeil;
     }
 
-
+/*
     ////// Oppgave 2 /////////////////////
 
     public static int oppgave2() {
@@ -302,7 +302,7 @@ public class Oblig2Test {
         return antallFeil;
     }
 
-/*
+*/
     ////// Oppgave 3 /////////////////////
 
     public static int oppgave3() {
@@ -533,7 +533,7 @@ public class Oblig2Test {
 
         return antallFeil;
     }
-
+/*
     ////// Oppgave 4 /////////////////////
 
     public static int oppgave4() {

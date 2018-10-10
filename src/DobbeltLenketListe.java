@@ -132,13 +132,33 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public void leggInn(int indeks, T verdi)
     {
-        throw new UnsupportedOperationException("Ikke laget ennå!");
+        Objects.requireNonNull(verdi, "Ikke tillatt med null-verdier");
+
+        indeksKontroll(indeks, true);
+
+        if(tom()) {
+            hode = hale = new Node<>(verdi, null, null);
+        } else if (indeks == 0) {
+            hode = hode.forrige = new Node<>(verdi, null, hode);
+        } else if(indeks == antall) {
+            hale = hale.neste = new Node<>(verdi, hale, null);
+        } else {
+            Node<T> p = hode;
+
+            for(int i = 0; i < indeks; i++) p = p.neste;
+
+            p = new Node<>(verdi, p, p.neste);
+            p.neste.forrige = p;
+            p.forrige.neste = p;
+        }
+        antall++;
+        endringer++;
     }
 
     @Override
     public boolean inneholder(T verdi)
     {
-        throw new UnsupportedOperationException("Ikke laget ennå!");
+        return indeksTil(verdi) != -1;
     }
 
     @Override
@@ -151,7 +171,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public int indeksTil(T verdi)
     {
-        throw new UnsupportedOperationException("Ikke laget ennå!");
+        if (verdi == null) return -1;
+
+        Node<T> p = hode;
+
+        for (int indeks = 0; indeks < antall ; indeks++)
+        {
+            if (p.verdi.equals(verdi)) return indeks;
+            p = p.neste;
+        }
+        return -1;
     }
 
     @Override

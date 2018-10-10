@@ -61,14 +61,45 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public DobbeltLenketListe(T[]a)
         {
+
+
+            this();
+            Objects.requireNonNull(a, "Tabellen a er null!");
+            if (a.length == 0) return;
+            Node<T> temp = hode;
+            for (int i = 0; i < a.length; i++) {
+                if (a[i] == null)
+                    continue;
+                Node<T> newNode = new Node<>(a[i], null, null);
+                if (antall == 0) {
+                    hode = hale = newNode;
+                } else {
+                    newNode.forrige = temp;
+                    hale.neste = newNode;
+                    hale = newNode;
+                }
+                temp = newNode;
+                antall++;
+            }
+
+
+
+
+            /*
             this();
 
             if ( a == null) {
                 throw new NullPointerException("Tabellen a er null");
             }
 
+
             int i = 0;
-            for (; i < a.length && a[i] == null; i++);
+            for (; i < a.length; i++) {
+                if (a[i] == null) {
+                    continue;
+                }
+            }
+
 
             if (i < a.length) {
 
@@ -78,12 +109,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
                 for (i++; i < a.length; i++) {
                     if (a[i] != null) {
-                        p = p.neste = new Node<>(a[i], null);
+                        p = p.neste = new Node<T>(a[i], null);
                         antall++;
                     }
                 }
                 hale = p;
-            }
+            } */
 
         }
 
@@ -194,8 +225,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public String toString()
     {
-        /*
-        System.out.println("jeg er her");
+
         StringBuilder s = new StringBuilder();
 
         s.append('[');
@@ -209,13 +239,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             while (a != null) {
                 s.append(',').append(' ').append(a.verdi);
                 a = a.neste;
-                System.out.println("verdien er " + a.verdi);
+
             }
         }
 
+
+
         s.append(']');
 
-        return s.toString(); */
+        return s.toString();
+
+        /*
         StringBuilder sb = new StringBuilder("[");
         Node<T> node = hode;
         while(node != null){
@@ -223,7 +257,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             sb.append(node.verdi);
             node = node.neste;
         }
-        return sb.toString();
+        return sb.toString(); */
     }
 
     public String omvendtString()

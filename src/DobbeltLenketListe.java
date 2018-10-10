@@ -30,23 +30,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int antall;            // antall noder i listen
     private int endringer;   // antall endringer i listen
 
-    // hjelpemetode IKKE FERDIG
+    // hjelpemetode
     private Node<T> finnNode(int indeks)
     {
          if(indeks < (antall/2)) {
              Node<T> p = hode;
-             for(int i = 0; i < indeks; i++) {
-                 p = p.neste;
+             for(int i = 0; i < indeks; i++) p = p.neste;
                  return p;
-             }
          } else {
              Node<T> p = hale;
-             for(int i = indeks; i>0; i--)  {
-                 p = p.forrige;
-                 return p;
-             }
-        }
-        return null;
+             for (int i = antall-1; i > indeks; i--) p = p.forrige;
+             return p;
+         }
     }
 
     // konstruktør
@@ -61,10 +56,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public DobbeltLenketListe(T[]a)
         {
-
-
             this();
+
             Objects.requireNonNull(a, "Tabellen a er null!");
+
             if (a.length == 0) return;
             Node<T> temp = hode;
             for (int i = 0; i < a.length; i++) {
@@ -81,62 +76,30 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 temp = newNode;
                 antall++;
             }
-
-
-
-
-            /*
-            this();
-
-            if ( a == null) {
-                throw new NullPointerException("Tabellen a er null");
-            }
-
-
-            int i = 0;
-            for (; i < a.length; i++) {
-                if (a[i] == null) {
-                    continue;
-                }
-            }
-
-
-            if (i < a.length) {
-
-                Node<T> p =  new Node<>(a[i], null);
-                hode = p;
-                antall = 1;
-
-                for (i++; i < a.length; i++) {
-                    if (a[i] != null) {
-                        p = p.neste = new Node<T>(a[i], null);
-                        antall++;
-                    }
-                }
-                hale = p;
-            } */
-
         }
+    // fratilKontroll fra kompendiet
+    private static void fratilKontroll(int antall, int fra, int til) {
+        if (fra < 0)
+            throw new IndexOutOfBoundsException
+                    ("fra(" + fra + ") er negativ !");
+        if (til > antall)
+            throw new IndexOutOfBoundsException
+                    ("til(" + til + ") > antall(" + antall + ")");
+        if (fra > til)
+            throw new IllegalArgumentException
+                    ("fra(" + fra + ") > til(" + til + ") - ulovlig intervall!");
+    }
 
     // subliste
     public Liste<T> subliste(int fra, int til)
     {
-        if (fra < 0)                                  // fra er negativ
-            throw new IndexOutOfBoundsException
-                    ("fra(" + fra + ") er negativ!");
-
-        if (til > antall)                          // til er utenfor tabellen
-            throw new IndexOutOfBoundsException
-                    ("til(" + til + ") > tablengde(" + antall + ")");
-
-        if (fra > til)                                // fra er større enn til
-            throw new IllegalArgumentException
-                    ("fra(" + fra + ") > til(" + til + ") - illegalt intervall!");
-        return subliste(fra, til);
+        fratilKontroll(antall, fra, til);
+        Liste<T> tmpListe = new DobbeltLenketListe<>();
+        for(int i = fra; i < til; i++) {
+            tmpListe.leggInn(finnNode(i).verdi);
+        }
+        return tmpListe;
     }
-
-
-
 
     @Override
     public int antall()
@@ -147,24 +110,22 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public boolean tom()
     {
-        return hode == null;
+        return antall == 0;
     }
 
     @Override
     public boolean leggInn(T verdi)
     {
-        Node nyNode = new Node<>(verdi, hale);
-        antall++;
 
         Objects.requireNonNull(verdi, "Ikke tillat med null-verdier!");
 
         if(tom()) {
-            hode = nyNode;
+            hode = hale = new Node<>(verdi, null, null);
         } else {
-            hale.neste = nyNode;
-            nyNode.forrige = hale;
+            hale = hale.neste = new Node<>(verdi, hale, null);
         }
-        hale = nyNode;
+        antall++;
+        endringer++;
         return true;
     }
 
@@ -225,7 +186,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public String toString()
     {
-
         StringBuilder s = new StringBuilder();
 
         s.append('[');
@@ -243,21 +203,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             }
         }
 
-
-
         s.append(']');
 
         return s.toString();
 
-        /*
-        StringBuilder sb = new StringBuilder("[");
-        Node<T> node = hode;
-        while(node != null){
-            if(node != hode) sb.append(", ");
-            sb.append(node.verdi);
-            node = node.neste;
-        }
-        return sb.toString(); */
     }
 
     public String omvendtString()
@@ -349,14 +298,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         System.out.println(l1.toString() + ""+ l2.toString()+ ""+ l3.toString() + ""+ l1.omvendtString() + ""+ l2.omvendtString() + ""+ l3.omvendtString());
 
         //Oppgave 3b)
-        /*
+
         Character[] c = {'A','B','C','D','E','F','G','H','I','J',};
-        DobbeltLenketListe<Character> liste = newDobbeltLenketListe<>(c);
+        DobbeltLenketListe<Character> liste = new DobbeltLenketListe<>(c);
         System.out.println(liste.subliste(3,8));  // [D, E, F, G, H]
         System.out.println(liste.subliste(5,5));  // []
         System.out.println(liste.subliste(8,liste.antall()));  // [I, J]
         // System.out.println(liste.subliste(0,11));  // skal kaste unntak
-        */
 
 
 

@@ -24,12 +24,12 @@ public class Oblig2Test {
         antallFeil += oppgave2();
         antallFeil += oppgave3();
         antallFeil += oppgave4();
-        antallFeil += oppgave5();
-        //antallFeil += oppgave6();
-        //antallFeil += oppgave7();
-        //antallFeil += oppgave8();
-        //antallFeil += oppgave9();
-        //antallFeil += oppgave10();
+       // antallFeil += oppgave5();
+        antallFeil += oppgave6();
+        antallFeil += oppgave7();
+        antallFeil += oppgave8();
+        antallFeil += oppgave9();
+        antallFeil += oppgave10();
 
         if (antallFeil == 0) {
             System.out.println("Gratulerer!! Du passerte testen!");
@@ -607,7 +607,7 @@ public class Oblig2Test {
 
         return antallFeil;
     }
-
+/*
     ////// Oppgave 5 /////////////////////
 
     public static int oppgave5() {
@@ -691,7 +691,7 @@ public class Oblig2Test {
 
         return antallFeil;
     }
-/*
+*/
     ///////// Oppgave 6 //////////////////////////
 
     public static int oppgave6() {
@@ -1348,6 +1348,6 @@ public class Oblig2Test {
         }
 
         return antallFeil;
-    } */
+    }
 
 } // Oblig2Test

@@ -1,3 +1,4 @@
+/*
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -190,20 +191,21 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         Node<T> p = finnNode(indeks);
         T gammelVerdi = p.verdi;
         p.verdi = nyverdi;
-        endringer++;
         return gammelVerdi;
     }
 
     @Override
-    public boolean fjern(T verdi) {
+    public boolean fjern(T verdi)
+    {
         if (verdi == null) {
             return false;
         }
 
-        Node<T> l = hode;
+        Node<T> l = hode, k = null;
 
         while (l != null) {
             if(l.verdi.equals(verdi)) break;
+                k = l;
                 l = l.neste;
         }
 
@@ -214,15 +216,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             if(antall > 1) {
                 hode.forrige = null;
             }
-        } else if (l == hale) {
+        } else if (k == hale) {
             hale = hale.forrige;
             hale.neste = null;
         } else {
-            l.forrige.neste = l.neste;
-            l.neste.forrige = l.forrige;
+            k.forrige.neste = k.neste;
+            k.neste.forrige = k.forrige;
         }
 
-        l.verdi = null;
         antall--;
         endringer++;
         return true;
@@ -237,6 +238,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         if (indeks == 0) {
             temp = hode.verdi;
+        //    hode = hode.neste;
             if(antall > 1) {
                 hode = hode.neste;
                 hode.forrige = null;
@@ -252,7 +254,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             tempHale.forrige = null;
             hale.neste = null;
         } else {
-            Node<T> k = finnNode(indeks);
+            Node<T> k = finnNode(indeks - 1);
             temp = k.verdi;
 
             k.forrige.neste = k.neste;
@@ -267,21 +269,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public void nullstill()
     {
-        Node<T> l = hode, k;
-
-        while (l != null) {
-            k = l.neste;
-            l.neste = null;
-            l.verdi = null;
-            l.forrige = null;
-            l = k;
-        }
-
-        hode = null;
-        hale = hode;
-        endringer++;
-        antall = 0;
-
+        throw new UnsupportedOperationException("Ikke laget ennå!");
     }
 
     @Override
@@ -335,29 +323,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c)
     {
-        for (int n = liste.antall(); n > 1; n--) {
-            for (int i = 1; i < n; i++) {
-                T verdiA = liste.hent(i-1);
-                T verdiB = liste.hent(i);
-                if(c.compare(verdiA, verdiB) > 0) {
-                    liste.oppdater(i-1, verdiB);
-                    liste.oppdater(i, verdiA);
-                }
-            }
-        }
+        throw new UnsupportedOperationException("Ikke laget ennå!");
     }
 
     @Override
     public Iterator<T> iterator()
     {
-        return new DobbeltLenketListeIterator();
+        throw new UnsupportedOperationException("Ikke laget ennå!");
     }
 
     public Iterator<T> iterator(int indeks)
     {
-        indeksKontroll(indeks, false);
-
-        return new DobbeltLenketListeIterator(indeks);
+        throw new UnsupportedOperationException("Ikke laget ennå!");
     }
 
     private class DobbeltLenketListeIterator implements Iterator<T>
@@ -375,7 +352,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         private DobbeltLenketListeIterator(int indeks)
         {
-            denne = finnNode(indeks);
+            throw new UnsupportedOperationException("Ikke laget ennå!");
         }
 
         @Override
@@ -387,56 +364,40 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         @Override
         public T next()
         {
-            if(iteratorendringer != endringer) {
-                throw new ConcurrentModificationException("Antall iteratorendringer er ulik antall endringer");
-            } else if (!hasNext()) {
-                throw new NoSuchElementException("Elementet finnes ikke");
-            }
-
-            fjernOK = true;
-            T temp = denne.verdi;
-            denne = denne.neste;
-            return temp;
+            throw new UnsupportedOperationException("Ikke laget ennå!");
         }
 
         @Override
         public void remove()
         {
-            if(endringer != iteratorendringer) {
-                throw new ConcurrentModificationException("Antall endringer og antall iteratorendringer er ulike");
-            } else if (!fjernOK) {
-                throw new IllegalStateException("Du har ikke lov å kalle på denne metoden");
-            }
-
-            fjernOK = false;
-
-            if(antall == 1) {
-                hale = null;
-                hode = null;
-            } else if (denne == null) {
-                Node<T> nyHale = hale;
-                hale = hale.forrige;
-                hale.neste = null;
-                nyHale.forrige = null;
-            } else if (denne.forrige == hode) {
-                hode = hode.neste;
-                hode.forrige = null;
-            }  else {
-                Node<T> temp = denne.forrige.neste;
-                temp.neste = denne;
-                denne.forrige = temp;
-            }
-
-            antall--;
-            endringer++;
-            iteratorendringer++;
+            throw new UnsupportedOperationException("Ikke laget ennå!");
         }
-
-
-
 
     } // DobbeltLenketListeIterator
 
+/** //////////////////////////////////////////////////////////////////////////// **/
+/*
+public static void main(String[] args) {
+
+        // Oppgave 1
+        String[] s1 = {}, s2 = {"A"}, s3 = {null,"A",null,"B",null};
+        DobbeltLenketListe<String> l1 = new DobbeltLenketListe<>(s1);
+        DobbeltLenketListe<String> l2 = new DobbeltLenketListe<>(s2);
+        DobbeltLenketListe<String> l3 = new DobbeltLenketListe<>(s3);
+
+        System.out.println(l1.toString() + ""+ l2.toString()+ ""+ l3.toString() + ""+ l1.omvendtString() + ""+ l2.omvendtString() + ""+ l3.omvendtString());
+
+        //Oppgave 3b)
+
+        Character[] c = {'A','B','C','D','E','F','G','H','I','J',};
+        DobbeltLenketListe<Character> liste = new DobbeltLenketListe<>(c);
+        System.out.println(liste.subliste(3,8));  // [D, E, F, G, H]
+        System.out.println(liste.subliste(5,5));  // []
+        System.out.println(liste.subliste(8,liste.antall()));  // [I, J]
+        // System.out.println(liste.subliste(0,11));  // skal kaste unntak
 
 
-} // DobbeltLenketListe
+
+        }
+        } // DobbeltLenketListe
+        */

@@ -10,21 +10,21 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         private T verdi;
         private Node<T> forrige, neste;
 
-        private Node(T verdi, Node<T> forrige, Node<T> neste)  // konstruktør
+        private Node(T verdi, Node<T> forrige, Node<T> neste)  // konstruktoor
         {
             this.verdi = verdi;
             this.forrige = forrige;
             this.neste = neste;
         }
 
-        protected Node(T t, T verdi)  // konstruktør
+        protected Node(T t, T verdi)  // konstruktoor
         {
             this(verdi, null, null);
         }
     } // Node
 
     // instansvariabler
-    private Node<T> hode;          // peker til den første i listen
+    private Node<T> hode;          // peker til den foorste i listen
     private Node<T> hale;          // peker til den siste i listen
     private int antall;            // antall noder i listen
     private int endringer;   // antall endringer i listen
@@ -196,9 +196,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean fjern(T verdi) {
-        if (verdi == null) {
-            return false;
-        }
+        if (verdi == null) return false;
 
         Node<T> l = hode;
 
@@ -211,9 +209,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             return false;
         } else if (l == hode) {
             hode = hode.neste;
-            if(antall > 1) {
-                hode.forrige = null;
-            }
+            if(antall > 1) hode.forrige = null;
         } else if (l == hale) {
             hale = hale.forrige;
             hale.neste = null;
@@ -252,11 +248,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             tempHale.forrige = null;
             hale.neste = null;
         } else {
-            Node<T> k = finnNode(indeks);
-            temp = k.verdi;
+            Node<T> l = finnNode(indeks);
+            temp = l.verdi;
 
-            k.forrige.neste = k.neste;
-            k.neste.forrige = k.forrige;
+            l.forrige.neste = l.neste;
+            l.neste.forrige = l.forrige;
         }
 
         antall--;
@@ -277,8 +273,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             l = k;
         }
 
-        hode = null;
-        hale = hode;
+        hode = hale = null;
         endringer++;
         antall = 0;
 
@@ -368,13 +363,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         private DobbeltLenketListeIterator()
         {
-            denne = hode;     // denne starter på den første i listen
+            denne = hode;     // denne starter på den foorste i listen
             fjernOK = false;  // blir sann når next() kalles
             iteratorendringer = endringer;  // teller endringer
         }
 
         private DobbeltLenketListeIterator(int indeks)
         {
+            this();
             denne = finnNode(indeks);
         }
 
@@ -388,7 +384,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         public T next()
         {
             if(iteratorendringer != endringer) {
-                throw new ConcurrentModificationException("Antall iteratorendringer er ulik antall endringer");
+              throw new ConcurrentModificationException("Antall iteratorendringer er ulik antall endringer");
             } else if (!hasNext()) {
                 throw new NoSuchElementException("Elementet finnes ikke");
             }
@@ -402,41 +398,32 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         @Override
         public void remove()
         {
-            if(endringer != iteratorendringer) {
-                throw new ConcurrentModificationException("Antall endringer og antall iteratorendringer er ulike");
-            } else if (!fjernOK) {
-                throw new IllegalStateException("Du har ikke lov å kalle på denne metoden");
-            }
+
+            if(!fjernOK) throw new IllegalStateException("Du har ikke lov å kalle på denne metoden");
+            if(endringer != iteratorendringer) throw new ConcurrentModificationException("Antall endringer og antall iteratorendringer er ulike");
 
             fjernOK = false;
 
             if(antall == 1) {
                 hale = null;
-                hode = null;
+                hode.neste = null;
             } else if (denne == null) {
-                Node<T> nyHale = hale;
+                Node<T> tempHale = hale;
                 hale = hale.forrige;
                 hale.neste = null;
-                nyHale.forrige = null;
+                tempHale.forrige = null;
             } else if (denne.forrige == hode) {
                 hode = hode.neste;
                 hode.forrige = null;
             }  else {
-                Node<T> temp = denne.forrige.neste;
+                Node<T> temp = denne.forrige.forrige;
                 temp.neste = denne;
                 denne.forrige = temp;
             }
 
-            antall--;
             endringer++;
             iteratorendringer++;
+            antall--;
         }
-
-
-
-
     } // DobbeltLenketListeIterator
-
-
-
 } // DobbeltLenketListe

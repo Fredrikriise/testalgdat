@@ -20,16 +20,16 @@ public class Oblig2Test {
     public static void main(String[] args) {
         int antallFeil = 0;
 
-        antallFeil += oppgave1();
-        antallFeil += oppgave2();
-        antallFeil += oppgave3();
-        antallFeil += oppgave4();
+       // antallFeil += oppgave1();
+       // antallFeil += oppgave2();
+       // antallFeil += oppgave3();
+       // antallFeil += oppgave4();
        // antallFeil += oppgave5();
-        antallFeil += oppgave6();
-        antallFeil += oppgave7();
-        antallFeil += oppgave8();
+       // antallFeil += oppgave6();
+        //antallFeil += oppgave7();
+       // antallFeil += oppgave8();
         antallFeil += oppgave9();
-        antallFeil += oppgave10();
+       // antallFeil += oppgave10();
 
         if (antallFeil == 0) {
             System.out.println("Gratulerer!! Du passerte testen!");
@@ -39,7 +39,7 @@ public class Oblig2Test {
                             + antallFeil + " feil eller svakhet(er)!");
         }
     }
-
+/*
     ////// Oppgave 1 /////////////////////
 
     public static int oppgave1() {
@@ -607,7 +607,7 @@ public class Oblig2Test {
 
         return antallFeil;
     }
-/*
+
     ////// Oppgave 5 /////////////////////
 
     public static int oppgave5() {
@@ -691,7 +691,7 @@ public class Oblig2Test {
 
         return antallFeil;
     }
-*/
+
     ///////// Oppgave 6 //////////////////////////
 
     public static int oppgave6() {
@@ -968,7 +968,7 @@ public class Oblig2Test {
         }
         return antallFeil;
     }
-
+*/
     //// Oppgave 7 ////////////////////////////
 
     public static int oppgave7() {
@@ -1005,7 +1005,7 @@ public class Oblig2Test {
 
         return antallFeil;
     }
-
+/*
     //// Oppgave 8 ////////////////////////////
 
     public static int oppgave8() {
@@ -1199,7 +1199,7 @@ public class Oblig2Test {
 
         return antallFeil;
     }
-
+*/
     ////// Oppgave 9 /////////////////////
 
     public static int oppgave9() {
@@ -1293,7 +1293,7 @@ public class Oblig2Test {
 
         return antallFeil++;
     }
-
+/*
     ////// Oppgave 10 /////////////////////
 
     public static int oppgave10() {
@@ -1348,6 +1348,6 @@ public class Oblig2Test {
         }
 
         return antallFeil;
-    }
+    } */
 
 } // Oblig2Test
